@@ -14,7 +14,7 @@ const Button = (props) => (
   </button>
 )
 
-const Statistics = ({all,average,positive}) => {
+const Statistics = ({good,bad,neutral}) => {
   const all=good+bad+neutral
   const average=(good*1+neutral*0+bad*-1)/all
   const positive=((good/all)*100)
