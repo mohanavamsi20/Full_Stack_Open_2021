@@ -8,9 +8,12 @@ const Button = (props) => {
 
 const Statistic = ({text,value}) => {
   return(
-    <div>
-      <p>{text} {value}</p>
-    </div>
+    <React.Fragment>
+      <tr>
+        <td>{text}</td>
+        <td>{value}</td>
+      </tr>
+    </React.Fragment>
   )
 }
 const Statistics = ({good, neutral, bad}) => {
@@ -18,14 +21,27 @@ const Statistics = ({good, neutral, bad}) => {
   const average=(good*1+neutral*0+bad*-1)/all
   const positive=((good/all)*100)
   return(
-  <div>
-    <Statistic text="good" value={good}/>
-    <Statistic text="neutral" value={neutral}/>
-    <Statistic text="bad" value={bad}/>
-    <p>all {all}</p>
-    <p>average {average}</p>
-    <p>positive {positive} %</p>
-  </div>
+  <React.Fragment>
+    <table>
+      <tbody>
+        <Statistic text="good" value={good}/>
+        <Statistic text="neutral" value={neutral}/>
+        <Statistic text="bad" value={bad}/>
+        <tr>
+          <td>all</td>
+          <td>{all}</td>
+        </tr>
+        <tr>
+          <td>average</td>
+          <td>{average}</td>
+        </tr>
+        <tr>
+          <td>positive</td>
+          <td>{positive} %</td>
+        </tr>
+      </tbody>
+    </table>
+    </React.Fragment>
   )
 }
 
@@ -43,7 +59,7 @@ const App = () => {
   const setTobad= newBad => {
     setBad(newBad)
   }
-  const total = good + neutral + bad;
+  const total = good + neutral + bad
   if(total === 0){
     return (
       <div>
