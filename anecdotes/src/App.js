@@ -13,6 +13,14 @@ const App = () => {
     setPoints({ ...points ,[selected]:points[selected]+1})
   }
   
+let maxVotes=points[0];
+let position=0;
+for(let i=1;i<6;i++){
+  if(points[i]>maxVotes){
+    maxVotes=points[i];
+    position=i
+  }
+}
 
   const anecdotes = [
     'If it hurts, do it more often',
@@ -24,7 +32,7 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
-  console.log('random',selected)
+  console.log('random number is ',selected)
   return (
     <div>
       <h1>Anecdote of the day</h1>
@@ -32,6 +40,10 @@ const App = () => {
       <p>has {points[selected]} vote(s)</p>
       <button onClick={vote}>Vote</button>
       <button onClick={newAnecdote}>next anecdote</button>
+      <br />
+      <h1>Anecdote with most votes</h1>
+      {anecdotes[position]}
+      <p>has {points[position]} vote(s)</p>
     </div>
   )
 }
