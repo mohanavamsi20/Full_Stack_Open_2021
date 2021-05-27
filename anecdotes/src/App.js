@@ -7,6 +7,12 @@ const App = () => {
     setSelected(randomInt);
   }
   
+  const [points,setPoints] = useState({ 0: 0, 1: 0, 2: 0, 3: 0 , 4: 0, 5: 0 })
+  
+  const vote = () =>{
+    setPoints({ ...points ,[selected]:points[selected]+1})
+  }
+  
 
   const anecdotes = [
     'If it hurts, do it more often',
@@ -21,8 +27,11 @@ const App = () => {
   console.log('random',selected)
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
-      <p><button onClick={newAnecdote}>next anecdote</button></p>
+      <h1>Anecdote of the day</h1>
+      {anecdotes[selected]}<br/>
+      <p>has {points[selected]} vote(s)</p>
+      <button onClick={vote}>Vote</button>
+      <button onClick={newAnecdote}>next anecdote</button>
     </div>
   )
 }
