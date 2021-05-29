@@ -24,11 +24,20 @@ const Part = (props) => {
     )
 }
 
+const Total = (props) =>{
+    return (
+      <div>
+        <h4>Number of exercises {props.parts[0].exercises+props.parts[1].exercises+props.parts[2].exercises+props.parts[3].exercises}</h4>
+      </div>
+    )
+  }
+
 function Course({course}) {
     return (
         <div>
             <Header name={course.name}/>
             <Content parts={course.parts} />
+            <Total parts={course.parts}/>
         </div>
     )
 }
