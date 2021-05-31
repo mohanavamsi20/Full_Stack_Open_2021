@@ -7,19 +7,17 @@ const Person = ({ person }) => {
 }
 
 const App = (props) => {
-  const [ persons, setPersons ] = useState([
-    { id:1,
-      name: 'Arto Hellas',
-      phone:'854678942'
-    },
-    {
-      id:2,
-      name: 'Ada Lovelace',
-      phone:'88455665'
-    }])
+  const [ persons, setPersons] = useState([
+    { name: 'Arto Hellas', phone: '01234567' },
+    { name: 'Ada Lovelace', phone: '39-44-5323523' },
+    { name: 'Dan Abramov', phone: '12-43-234345' },
+    { name: 'Mary Poppendieck', phone: '39-23-6423122' }
+  ])
 
   const [ newName, setNewName ] = useState('')
   const [ newPhone, setNewPhone ] = useState('')
+  const [searchedPerson, setSearchedPerson] = useState('')
+  const [foundPerson, setFoundPerson] = useState([])
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -30,7 +28,6 @@ const App = (props) => {
       const nameObject = {
         name: newName,
         phone:newPhone,
-        id: persons.length + 1,
       }
   
       setPersons(persons.concat(nameObject))
@@ -45,22 +42,48 @@ const App = (props) => {
   const handlePhoneChange = (event) => {
     setNewPhone(event.target.value)
   }
+
+  const handlePersonSearch = (event) => {
+    setSearchedPerson(event.target.value);
+    const personResult = persons.filter(person =>
+      person.name.toLowerCase().includes(event.target.value.toLowerCase())
+    );
+    setFoundPerson(personResult);
+  }
+
+  function Persons({persons,foundPerson, searchedPerson}) {
+    const rows = () =>
+        searchedPerson === ""
+        ? (persons.map(p => <Person name={p.name} phone={p.phone}/>)
+        ) : ( foundPerson.map(p => (<p>{p.name} {p.phone}</p>))
+        )
+    return (
+        <div>
+            {rows()}
+        </div>
+    )
+}
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+        filter shown with: <input onChange={handlePersonSearch} value={searchedPerson}/>
+      </div> 
+      <h2>add a new</h2>
       <form onSubmit={addPerson}>
         <div>
           name: <input value={newName} onChange={handleNameChange}/>
         </div>
         <div>
-          phone: <input value={newPhone} onChange={handlePhoneChange}/>
+          Numbers: <input value={newPhone} onChange={handlePhoneChange}/>
         </div>
         <div>
           <button type="submit">add</button>
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map(person => <Person key={person.id} person={person} /> )}
+      <Persons foundPerson={foundPerson} />
     </div>
   )
 
