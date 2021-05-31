@@ -19,13 +19,18 @@ const App = (props) => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    const nameObject = {
-      name: newName,
-      id: persons.length + 1,
+    if(persons.some(item => item.name === newName)){
+      alert(`${newName} is alrady added to phonebook`)
     }
-
-    setPersons(persons.concat(nameObject))
-    setNewName('')
+    else{
+      const nameObject = {
+        name: newName,
+        id: persons.length + 1,
+      }
+  
+      setPersons(persons.concat(nameObject))
+      setNewName('')
+    }
   }
   
   const handleNameChange = (event) => {
