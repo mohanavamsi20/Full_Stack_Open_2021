@@ -1,8 +1,10 @@
 import React from 'react'
 
-function Person({ person }) {
+function Person({ name,phone }) {
     return (
-      <p>{person.name} {person.phone}</p>
+      <div>
+        <p>{name} {phone}</p>
+      </div>
     )
   }
 
