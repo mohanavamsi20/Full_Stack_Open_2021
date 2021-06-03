@@ -4,6 +4,7 @@ import FilterModule from './components/FilterModule'
 import PersonForm from './components/PersonForm'
 // import axios from 'axios'
 import service from './services/names'
+import './App.css'
 
 const App = () => {
   const [ persons, setPersons] = useState([])
@@ -20,6 +21,20 @@ const App = () => {
   const [ newPhone, setNewPhone ] = useState('')
   const [searchedPerson, setSearchedPerson] = useState('')
   const [foundPerson, setFoundPerson] = useState([])
+  const [notify, setNotify] = useState(null)
+
+  const Notify = ({ message }) => {
+    if (message === null) {
+      return null
+    }
+
+    return (
+      <div className="notification">
+        {message}
+      </div>
+    )
+  }
+
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -37,7 +52,13 @@ const App = () => {
           .then(returnedPerson => {
             setPersons(persons.map(p => p.id !== id ? p : returnedPerson))
           })
-      }
+          setNotify(
+            `Updated ${newName}`
+          )
+          setTimeout(() => {
+            setNotify(null)
+          }, 5000)
+        }
     }
     else{
       service
@@ -47,6 +68,12 @@ const App = () => {
         setNewName('')
         setNewPhone('')
       })
+      setNotify(
+        `Added ${newName}`
+      )
+      setTimeout(() => {
+        setNotify(null)
+      }, 5000)
     }
   }
 
@@ -81,6 +108,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notify message={notify} />
       <FilterModule handlePersonSearch={handlePersonSearch} searchedPerson={searchedPerson}/> 
       <h2>add a new</h2>
       <PersonForm
