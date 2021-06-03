@@ -2,16 +2,17 @@ import React, { useState ,useEffect} from 'react'
 import Persons from './components/Persons'
 import FilterModule from './components/FilterModule'
 import PersonForm from './components/PersonForm'
-import axios from 'axios'
+// import axios from 'axios'
+import service from './services/names'
 
 const App = () => {
   const [ persons, setPersons] = useState([])
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+    service
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
   }, [])
 
@@ -30,10 +31,14 @@ const App = () => {
         name: newName,
         phone:newPhone,
       }
-  
-      setPersons(persons.concat(nameObject))
-      setNewName('')
-      setNewPhone('')
+
+      service
+      .create(nameObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson));
+        setNewName('')
+        setNewPhone('')
+      })
     }
   }
   
