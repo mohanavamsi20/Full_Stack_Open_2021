@@ -23,15 +23,23 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    if(persons.some(item => item.name === newName)){
-      alert(`${newName} is alrady added to phonebook`)
+    const nameObject = {
+      name: newName,
+      phone:newPhone,
+    }
+    if(persons.some(item => item.name === newName) === true){
+      let index = persons.findIndex(p => p.name === newName);
+      let id = persons[index].id;
+      let checkNameDialogue = window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`);
+      if (checkNameDialogue === true) {
+        service
+          .update(id, nameObject)
+          .then(returnedPerson => {
+            setPersons(persons.map(p => p.id !== id ? p : returnedPerson))
+          })
+      }
     }
     else{
-      const nameObject = {
-        name: newName,
-        phone:newPhone,
-      }
-
       service
       .create(nameObject)
       .then(returnedPerson => {
