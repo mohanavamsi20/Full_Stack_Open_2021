@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Person({ name,phone }) {
+function Person({ id,name,phone,deletePerson }) {
     return (
       <div>
-        <p>{name} {phone}</p>
+        <p>{name} {phone} <button onClick={() => deletePerson(id,name)}>delete</button></p>
       </div>
     )
   }
