@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import Weather from './components/Weather'
 import axios from 'axios'
+// const api_key = process.env.REACT_APP_API_KEY
+
 
 function App() {
   const [countries, setCountries] = useState([])
@@ -42,11 +45,12 @@ function App() {
           {d.languages.map(l => <li key={l.name}>{l.name}</li>)}
         </ul>
         <img src={d.flag} height='200px' width='400px' alt='img'/>
+        <Weather country={d} />
       </div>)
   }
 
   return (
-    <div className="App">
+    <div>
       find countries <input type="text" value={filtered} onChange={handleChange}/>
       {text}
     </div>
