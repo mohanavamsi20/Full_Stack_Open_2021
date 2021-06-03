@@ -16,8 +16,12 @@ function App() {
   const handleChange = (event) => {
     setFiltered(event.target.value)
   }
-
+  
   const display = countries.filter(c => c.name.toString().toLowerCase().includes(filtered.toString().toLowerCase()) === true)
+
+  const handleClick = name => {
+    setFiltered(name)
+  }
 
   let text;
   if(filtered === "") {
@@ -25,7 +29,8 @@ function App() {
   } else if (display.length > 10) {
     text = <p>Too many matches</p>
   } else if (display.length > 1) {
-    text = display.map(d => <p key={d.alpha3Code}>{d.name}</p>)
+    text = display.map(d => <p key={d.alpha3Code}>{d.name}<button onClick={() => handleClick(d.name)}>show</button></p>)
+    
   } else {
     text = display.map(d => 
       <div key={d.alpha3Code}>
@@ -41,7 +46,7 @@ function App() {
   }
 
   return (
-    <div >
+    <div className="App">
       find countries <input type="text" value={filtered} onChange={handleChange}/>
       {text}
     </div>
