@@ -22,6 +22,7 @@ const App = () => {
   const [searchedPerson, setSearchedPerson] = useState('')
   const [foundPerson, setFoundPerson] = useState([])
   const [notify, setNotify] = useState(null)
+  const [error, setError] = useState(null)
 
   const Notify = ({ message }) => {
     if (message === null) {
@@ -29,7 +30,19 @@ const App = () => {
     }
 
     return (
-      <div className="notification">
+      <div className="notify">
+        {message}
+      </div>
+    )
+  }
+
+  const Error = ({ message }) => {
+    if (message === null) {
+      return null
+    }
+
+    return (
+      <div className="error">
         {message}
       </div>
     )
@@ -84,8 +97,22 @@ const App = () => {
       service
         .deletePerson(id)
         .then(() => {
-          setPersons(persons.filter(p => p.id !== id)
-          );
+          setPersons(persons.filter(p => p.id !== id))
+          setNotify(
+            `${name} succesfully deleted`
+          )
+          setTimeout(() => {
+            setNotify(null)
+          }, 5000)
+        })
+        .catch(error => {
+          setError(
+            `Information of '${name}' has already been removed from server`
+          )
+          setTimeout(() => {
+            setError(null)
+          }, 5000)
+          setPersons(persons.filter(p => p.id !== id))
         })
     }
   }
@@ -109,6 +136,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Notify message={notify} />
+      <Error message={error} />
       <FilterModule handlePersonSearch={handlePersonSearch} searchedPerson={searchedPerson}/> 
       <h2>add a new</h2>
       <PersonForm
