@@ -1,4 +1,3 @@
-
 const http = require('http')
 const express = require('express')
 const app = express()
@@ -37,6 +36,18 @@ let persons = [
     response.send(`<p>Phonebook has info for ${persons.length} people</p>
     <p>${new Date}</p>`)
   })
+
+  app.get('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    const Person = persons.find(p => p.id === id)
+    
+    if (Person) {
+      response.json(Person)
+    } else {
+      response.status(404).end()
+    }
+  })
+  
 
 const PORT = 3001
 app.listen(PORT)
