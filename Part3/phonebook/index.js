@@ -1,6 +1,7 @@
 const http = require('http')
 const express = require('express')
 const app = express()
+app.use(express.json())
 let persons = [
     {
         "id": 1,
@@ -21,7 +22,6 @@ let persons = [
         "id": 4,
         "name": "Mary Poppendieck",
         "number": "39-23-6423122"
-        
       }
   ]
   app.get('/', (request, response) => {
@@ -47,7 +47,37 @@ let persons = [
       response.status(404).end()
     }
   })
+
+  const randID = () => {
+    const maxId = Math.floor((Math.random() * 100) + 0);
+    return maxId
+  }
   
+  app.post('/api/persons', (request, response) => {
+    const body = request.body
+    if (!body.name||!body.number) {
+      return response.status(400).json({ 
+        error: 'name or number is missing' 
+      })
+    }
+    else if(persons.some(item => item.name === body.name) === true){
+      return response.status(400).json({ 
+        error: 'name must be unique' 
+      })
+    }
+  
+    const person = {
+      id: randID(),
+      name:body.name,
+      number:body.number
+    }
+  
+    persons = persons.concat(person)
+  
+    response.json(person)
+  })
+  
+
   app.delete('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id)
   persons = persons.filter(p => p.id !== id)
@@ -57,5 +87,6 @@ let persons = [
   
 
 const PORT = 3001
-app.listen(PORT)
-console.log(`Server running on port ${PORT}`)
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
