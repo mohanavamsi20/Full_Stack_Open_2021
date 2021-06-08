@@ -18,7 +18,7 @@ const App = () => {
   }, [])
 
   const [ newName, setNewName ] = useState('')
-  const [ newPhone, setNewPhone ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
   const [searchedPerson, setSearchedPerson] = useState('')
   const [foundPerson, setFoundPerson] = useState([])
   const [notify, setNotify] = useState(null)
@@ -53,12 +53,12 @@ const App = () => {
     event.preventDefault()
     const nameObject = {
       name: newName,
-      phone:newPhone,
+      number:newNumber,
     }
     if(persons.some(item => item.name === newName) === true){
       let index = persons.findIndex(p => p.name === newName);
       let id = persons[index].id;
-      let checkNameDialogue = window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`);
+      let checkNameDialogue = window.confirm(`${newName} is already added to the Phonebook, replace the old number with a new one?`);
       if (checkNameDialogue === true) {
         service
           .update(id, nameObject)
@@ -79,7 +79,7 @@ const App = () => {
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson));
         setNewName('')
-        setNewPhone('')
+        setNewNumber('')
       })
       setNotify(
         `Added ${newName}`
@@ -120,8 +120,8 @@ const App = () => {
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
-  const handlePhoneChange = (event) => {
-    setNewPhone(event.target.value)
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
   }
 
   const handlePersonSearch = (event) => {
@@ -143,8 +143,8 @@ const App = () => {
         addPerson={addPerson}
         handleNameChange={handleNameChange}
         newName={newName}
-        handlePhoneChange={handlePhoneChange}
-        newPhone={newPhone}
+        handleNumberChange={handleNumberChange}
+        newNumber={newNumber}
       />
       <h2>Numbers</h2>
       <Persons persons={persons} foundPerson={foundPerson} searchedPerson={searchedPerson} deletePerson={deletePerson}/>
