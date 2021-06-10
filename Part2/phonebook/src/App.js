@@ -23,6 +23,7 @@ const App = () => {
   const [foundPerson, setFoundPerson] = useState([])
   const [notify, setNotify] = useState(null)
   const [error, setError] = useState(null)
+  const [message, setMessage] = useState(null)
 
   const Notify = ({ message }) => {
     if (message === null) {
@@ -71,7 +72,19 @@ const App = () => {
           setTimeout(() => {
             setNotify(null)
           }, 5000)
-        }
+
+          .catch(error => {
+            setMessage({
+              text: error.response.data.error,
+              type: "error"
+            })
+            setTimeout(() => {
+              setMessage(null)
+            }, 3000)
+          })
+        setNewName('')
+        setNewNumber('')
+      }
     }
     else{
       service
@@ -87,6 +100,18 @@ const App = () => {
       setTimeout(() => {
         setNotify(null)
       }, 5000)
+
+      .catch(error => {
+        setMessage({
+          text: error.response.data.error,
+          type: "error"
+        })
+        setTimeout(() => {
+          setMessage(null)
+        }, 3000)
+      })
+    setNewName('')
+    setNewNumber('')
     }
   }
 
@@ -116,6 +141,8 @@ const App = () => {
         })
     }
   }
+
+
   
   const handleNameChange = (event) => {
     setNewName(event.target.value)

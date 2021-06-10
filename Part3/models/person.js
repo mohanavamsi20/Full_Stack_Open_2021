@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const url = process.env.MONGODB_URI
+const uniqueValidator = require('mongoose-unique-validator')
+
 
 console.log('connecting to', url)
 
@@ -11,10 +13,10 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFind
     console.log('error connecting to MongoDB:', error.message)
   })
 
-const personSchema = new mongoose.Schema({
-  name: String,
-  number: String
-})
+  const personSchema = new mongoose.Schema({
+    name: { type: String, required: true, unique: true, minlength: [3, 'Name must have atleast 3 characters'] },
+    number: { type: String, required: true, unique: true, minlength: [8, 'Name must have atleast 8 characters'] },
+  })
 
 personSchema.set('toJSON', {
   transform: (document, returnedObject) => {
