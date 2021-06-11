@@ -72,7 +72,6 @@ const App = () => {
           setTimeout(() => {
             setNotify(null)
           }, 5000)
-
           .catch(error => {
             setMessage({
               text: error.response.data.error,
@@ -100,9 +99,8 @@ const App = () => {
       setTimeout(() => {
         setNotify(null)
       }, 5000)
-
       .catch(error => {
-        setMessage({
+        setNotify({
           text: error.response.data.error,
           type: "error"
         })
